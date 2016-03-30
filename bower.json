@@ -1,0 +1,25 @@
+{
+  "name": "social-commerce",
+  "description": "",
+  "main": "server.js",
+  "authors": [
+    "John Spencer <johnspencer15@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/johnspencer15/social-commerce",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^2.2.2",
+    "bootstrap": "^3.3.6",
+    "magnific-popup": "^1.0.0",
+    "toastr": "^2.1.1"
+  }
+}

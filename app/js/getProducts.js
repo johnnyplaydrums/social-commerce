@@ -12,6 +12,7 @@ $(function() {
   });
   
   function displayProducts(response) {
+    console.log(response);
     var container = $('.products-field .container'),
         col,
         panel,
@@ -35,9 +36,11 @@ $(function() {
         .text(response[i].name);
       body = $('<div>')
         .addClass('panel-body');
-      img = $('<img>')
-        .addClass('product-image')
-        .attr('src', response.img ? response.img : '/img/placeholder.jpg');
+      img = $('<div>').addClass('image-container')
+        .append(
+          $('<img>')
+            .addClass('product-image')
+            .attr('src', '/img/' + response[i].img));
       rating = $('<p>')
         .addClass('starRating display')
         .append($('<span class="star"></span>'),$('<span class="star"></span>'),

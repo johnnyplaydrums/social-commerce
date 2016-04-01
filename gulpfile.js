@@ -13,6 +13,7 @@ var browserify = require('browserify');
 var watchify = require('watchify');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
+var imageResize = require('gulp-image-resize');
 
 var production = process.env.NODE_ENV === 'production';
 
@@ -107,7 +108,7 @@ gulp.task('styles', function() {
 
 gulp.task('copyFiles', function() {
   return gulp.src('app/js/*')
-    .pipe(gulp.dest('public/js/components'))
+    .pipe(gulp.dest('public/js/components'));
 });
 
 gulp.task('watch', function() {

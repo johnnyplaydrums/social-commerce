@@ -12,8 +12,6 @@ var babelify = require('babelify');
 var browserify = require('browserify');
 var watchify = require('watchify');
 var uglify = require('gulp-uglify');
-var sourcemaps = require('gulp-sourcemaps');
-var imageResize = require('gulp-image-resize');
 
 var production = process.env.NODE_ENV === 'production';
 

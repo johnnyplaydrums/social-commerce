@@ -3,29 +3,31 @@ require('babel-register');
 
 var express = require('express');
 var bodyParser = require('body-parser');
+var path = require('path');
 
 var app = express();
 
+var multer  = require('multer');
+
 var config = require('./config');
 var mongoose = require('mongoose');
-var ObjectId = require('mongoose').Types.ObjectId; 
 var Product = require('./models/product');
 
+
+/***** Database connection *****/
 mongoose.connect(config.database);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-});
 
 /***** Express middleware *****/
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 /***** Routes *****/
 app.route('/')
   .all(function(request, response) {
-    response.sendFile(__dirname + '/public/index.html');
+    response.sendFile(__dirname + '/app/views/index.html');
 });
 
 app.route('/getProducts')
@@ -48,27 +50,33 @@ app.route('/addProduct')
   .get(function(request, response) {
     response.sendFile(__dirname + '/app/views/addProduct.html');
   })
-  .post(function(request, response) {
+  .post(multer({ dest: __dirname + '/public/img/'}).single('picture'), function(request, response) {
+  
+    //create new product object
     var product = new Product({
       name : request.body.name,
       description : request.body.description,
       techSpecs : request.body.techSpecs,
-      averageRating : request.body.rating,
+      averageRating : request.body.rating ? request.body.rating : 0,
+      img : request.file ? request.file.filename : 'placeholder.jpg',
       reviews : [
         {
           title : request.body.reviewTitle,
           description : request.body.reviewDescription,
-          rating : request.body.rating
+          rating : request.body.rating ? request.body.rating : 0
         }
       ]
     });
   
+    //save product object to database
     product.save(function(err) {
       if (err) {
+        //if there's an error, log it to console
+        //TODO: handle error on the front end
         console.log(err);
       } else {
-        response.setHeader('Content-Type', 'application/json');
-        response.send({ status : 'success' });
+        //on success, reload the addProduct page
+        response.sendFile(__dirname + '/app/views/addProduct.html');
       }
     });
 });

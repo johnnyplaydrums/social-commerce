@@ -1,3 +1,5 @@
 activemq-data
 node_modules
 bower_components
+.DS_STORE
+/public/img/*

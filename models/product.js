@@ -11,6 +11,7 @@ var productSchema = new mongoose.Schema({
   description : String,
   techSpecs : String,
   averageRating : {type : Number, default: 0},
+  img : String,
   reviews : [reviewSchema],
   createdBy : String
 });

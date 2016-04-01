@@ -13,7 +13,6 @@ var config = require('./config');
 var mongoose = require('mongoose');
 var Product = require('./models/product');
 
-
 /***** Database connection *****/
 mongoose.connect(config.database);
 var db = mongoose.connection;

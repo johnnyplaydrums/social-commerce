@@ -12,7 +12,6 @@ $(function() {
     displayProduct(response);
   }).fail(function(xhr, status, message) {
     toastr.error('Something went wrong! Please reload page.');
-    console.log(message);
   });
   
   function displayProduct(response) {
@@ -31,7 +30,9 @@ $(function() {
       url : '/editProduct',
       data : $('#editProduct').serialize()
     }).success(function(response) {
-      console.log(response);
+      if (response.status === 'success') {
+        toastr.success("Product saved!");
+      }
     }).fail(function(xhr, status, message) {
       toastr.error('Something went wrong! Please try again.');
     });

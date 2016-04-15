@@ -12,7 +12,6 @@ $(function() {
   });
   
   function displayProducts(response) {
-    console.log(response);
     var container = $('.products-field .container'),
         col,
         panel,
@@ -71,7 +70,7 @@ $(function() {
             );
         }
       }
-      
+
       body.append(img, rating, help, detailsButton, editButton);
       panel.append(heading, body);
       col.append(panel);

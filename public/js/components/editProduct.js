@@ -38,4 +38,20 @@ $(function() {
     });
   });
   
+  //delete product
+  // POST /
+  $("#delete").click(function (e) {
+    $.ajax({
+      type : 'POST',
+      url : '/deleteProduct',
+      data : $('#editProduct').serialize()
+    }).success(function(response) {
+      if (response.status === 'success') {
+        location = '/';
+      }
+    }).fail(function(xhr, status, message) {
+      toastr.error('Something went wrong! Please try again.');
+    });
+  });
+  
 });

@@ -112,6 +112,18 @@ app.route('/getProduct')
     });
 });
 
+app.route('/deleteProduct')
+  .post(function(request, response) {
+    var id = request.body.id;
+    Product.remove({ _id : id }, function(err) {
+      if (err) {
+        return console.error(err);
+      }
+      response.setHeader('Content-Type', 'application/json');
+      response.send({ status : 'success' });
+    });
+});
+
 app.route('*')
   .all(function(request, response) {
     response.status(404).sendFile(__dirname + '/app/views/404.html');

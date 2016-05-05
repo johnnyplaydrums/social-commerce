@@ -1,11 +1,11 @@
 <!doctype html>
 <html>
   <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset='utf-8'/>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'/>
+    <meta name='viewport' content='width=device-width, initial-scale=1'/>
     <title>E-Commerce Now | Edit Product</title>
-    <link rel="stylesheet" href="/css/main.css"/>
+    <link rel='stylesheet' href='/css/main.css'/>
   </head>
 
   <body> 
@@ -16,8 +16,8 @@
             <div class='panel panel-default'>
               <div class='panel-heading'>Edit Product</div>
               <div class='panel-body'>
-                <form id="editProduct">
-                  <input type="hidden" name="id">
+                <form id='editProduct' enctype='multipart/form-data' method='post' action='/editProduct' role='form'>
+                  <input type='hidden' name='id'>
                   <div class='form-group'>
                     <label class='control-label'>Product Name</label>
                     <input type='text' class='form-control' name='name' autoFocus/>
@@ -32,6 +32,13 @@
                     <label class='control-label'>Tech Specs</label>
                     <input type='text' class='form-control' name='techSpecs' />
                     <span class='help-block'></span>
+                  </div>
+                  <div class='form-group'>
+                    <label class='control-label' id="pictureLabel">Picture</label>
+                     - 
+                    <span id="changePicture">Change Picture</span>
+                    <span class='help-block'></span>
+                    <input type='hidden' name='currentPicture'>
                   </div>
                   <button type='submit' class='btn btn-primary'>Update</button>
                   <button type='button' class='btn btn-danger pull-right' id='delete'>Delete</button>
@@ -48,7 +55,7 @@
     <script src='/js/components/navbar.js'></script>
     <script src='/js/components/editProduct.js'></script>
     
-    <script type="text/javascript">
+    <script type='text/javascript'>
       var param = document.URL.split('id=')[1];
     </script>
   </body>

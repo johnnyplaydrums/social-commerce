@@ -8,7 +8,7 @@ $(function() {
     type : 'GET',
     url : '/getProduct',
     data : { 'id' : id }
-  }).success(function(response) {
+  }).done(function(response) {
     displayProduct(response);
   }).fail(function(xhr, status, message) {
     toastr.error('Something went wrong! Please reload page.');
@@ -19,35 +19,35 @@ $(function() {
     $('[name=name]').val(response.name);
     $('[name=description]').val(response.description);
     $('[name=techSpecs]').val(response.techSpecs);
+    $('<img>')
+      .attr('src', '/img/' + response.img)
+      .css('max-width', '100%')
+      .insertAfter('#changePicture');
+    $('[name=currentPicture]').val(response.img);
   }
   
-  //submit edited product
-  // POST /editProduct
-  $('#editProduct').submit(function (e) {
-    e.preventDefault();
-    $.ajax({
-      type : 'POST',
-      url : '/editProduct',
-      data : $('#editProduct').serialize()
-    }).success(function(response) {
-      if (response.status === 'success') {
-        toastr.success("Product saved!");
-      }
-    }).fail(function(xhr, status, message) {
-      toastr.error('Something went wrong! Please try again.');
+  //display file input if change picture button is clicked
+  $('#changePicture').click(function() {
+    $('<input type="file" name="newPicture" id="pictureInput">').insertAfter($('#changePicture'));
+    $('#changePicture').off('click');
+    $('#changePicture:hover').css({
+      'text-decoration' : 'none',
+      'cursor' : 'default'
     });
   });
-  
+
   //delete product
-  // POST /
-  $("#delete").click(function (e) {
+  // POST /deletProduct
+  $('#delete').click(function (e) {
     $.ajax({
       type : 'POST',
       url : '/deleteProduct',
       data : $('#editProduct').serialize()
-    }).success(function(response) {
+    }).done(function(response) {
       if (response.status === 'success') {
         location = '/';
+      } else if (response.status === 'error') {
+        toastr.error('Something went wrong! Please try again.');
       }
     }).fail(function(xhr, status, message) {
       toastr.error('Something went wrong! Please try again.');

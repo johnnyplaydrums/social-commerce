@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>E-Commerce Now</title>
+    <link rel="stylesheet" href="/css/main.css"/>
+  </head>
+
+  <body> 
+    <nav class='navbar navbar-default navbar-static-top'></nav>
+    
+      <div class='container'>
+        <div class='row flipInX animated'>
+          <div class='col-sm-8'>
+            <div class='panel panel-default'>
+              <div class='panel-heading'>Add Product</div>
+              <div class='panel-body'>
+                <form id='addProduct' enctype='multipart/form-data' method='post' action='/addProduct'>
+                  <div class='form-group'>
+                    <label class='control-label'>Product Name</label>
+                    <input type='text' class='form-control' name='name' autoFocus/>
+                    <span class='help-block'></span>
+                  </div>
+                  <div class='form-group'>
+                    <label class='control-label'>Product Description</label>
+                    <input type='text' class='form-control' name='description' />
+                    <span class='help-block'></span>
+                  </div>
+                  <div class='form-group'>
+                    <label class='control-label'>Tech Specs</label>
+                    <input type='text' class='form-control' name='techSpecs' />
+                    <span class='help-block'></span>
+                  </div>
+                  <div class='form-group'>
+                    <label class='control-label'>Review Title</label>
+                    <input type='text' class='form-control' name='reviewTitle' />
+                    <span class='help-block'></span>
+                  </div>
+                  <div class='form-group'>
+                    <label class='control-label'>Review Description</label>
+                    <input type='text' class='form-control' name='reviewDescription' />
+                    <span class='help-block'></span>
+                  </div>
+                  <div class='form-group'>
+                    <p>Rating:</p>
+                    <span class="starRating">
+                      <input id="rating5" type="radio" name="rating" value="5">
+                      <label for="rating5">5</label>
+                      <input id="rating4" type="radio" name="rating" value="4">
+                      <label for="rating4">4</label>
+                      <input id="rating3" type="radio" name="rating" value="3">
+                      <label for="rating3">3</label>
+                      <input id="rating2" type="radio" name="rating" value="2">
+                      <label for="rating2">2</label>
+                      <input id="rating1" type="radio" name="rating" value="1">
+                      <label for="rating1">1</label>
+                    </span>
+                  </div>
+                  <div class='form-group'>
+                    <input type='file' name='picture'>
+                  </div>
+                  <button type='submit' class='btn btn-primary'>Submit</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    <script src="/js/vendor.js"></script>
+    <script src="/js/bundle.js"></script>
+    
+    <script src='/js/components/navbar.js'></script>
+    <script src="/js/components/addProduct.js"></script>
+  </body>
+
+</html>

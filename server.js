@@ -2,16 +2,21 @@
 require('babel-register');
 
 var express = require('express');
+var app = express();
+var config = require('./config/dbconfig');
+
 var bodyParser = require('body-parser');
 var path = require('path');
-
-var app = express();
-
 var multer  = require('multer');
+var cookieParser = require('cookie-parser');
+var passport = require('passport');
 
-var config = require('./config');
+var session = require('express-session');
+
 var mongoose = require('mongoose');
 var Product = require('./models/product');
+
+require('./config/passport')(passport);
 
 /***** Database connection *****/
 mongoose.connect(config.database);
@@ -22,108 +27,40 @@ db.on('error', console.error.bind(console, 'connection error:'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieParser()); 
+
+/***** Passport *****/
+app.use(session({ secret: 'ilovescotch', resave: false })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+
+/***** Router *****/
+var router = express.Router();
+
+router.use(function(req, res, next) {
+    // log each request to the console
+    console.log(req.method, req.url);
+    // continue doing what we were doing and go to the route
+    next(); 
+});
 
 /***** Routes *****/
-app.route('/')
-  .all(function(request, response) {
-    response.sendFile(__dirname + '/app/views/index.html');
-});
+app.use(require('./routes/index'));
+app.use(require('./routes/getProduct'));
+app.use(require('./routes/getProducts'));
+app.use(require('./routes/products'));
+app.use(require('./routes/signup'));
+app.use(require('./routes/login'));
+app.use(require('./routes/logout'));
+app.use(require('./routes/isLoggedIn'));
+app.use(require('./routes/addProduct'));
+app.use(require('./routes/editProduct'));
+app.use(require('./routes/deleteProduct'));
+app.use(require('./routes/createReview'));
 
-app.route('/getProducts')
-  .get(function(request, response) {
-    Product.find(function (err, products) {
-      if (err) {
-        return console.error(err);
-      }
-      response.setHeader('Content-Type', 'application/json');
-      response.send(products);
-    });
-});
+app.use('/', router);
 
-app.route('/products')
-  .get(function(request, response) {
-    response.sendFile(__dirname + '/app/views/products.html');
-});
-
-app.route('/addProduct')
-  .get(function(request, response) {
-    response.sendFile(__dirname + '/app/views/addProduct.html');
-  })
-  .post(multer({ dest: __dirname + '/public/img/'}).single('picture'), function(request, response) {
-  
-    //create new product object
-    var product = new Product({
-      name : request.body.name,
-      description : request.body.description,
-      techSpecs : request.body.techSpecs,
-      averageRating : request.body.rating ? request.body.rating : 0,
-      img : request.file ? request.file.filename : 'placeholder.jpg',
-      reviews : [
-        {
-          title : request.body.reviewTitle,
-          description : request.body.reviewDescription,
-          rating : request.body.rating ? request.body.rating : 0
-        }
-      ]
-    });
-  
-    //save product object to database
-    product.save(function(err) {
-      if (err) {
-        //if there's an error, log it to console
-        //TODO: handle error on the front end
-        console.log(err);
-      } else {
-        //on success, reload the addProduct page
-        response.sendFile(__dirname + '/app/views/addProduct.html');
-      }
-    });
-});
-
-app.route('/editProduct')
-  .get(function(request, response) {
-    response.sendFile(__dirname + '/app/views/editProduct.html');
-  })
-  .post(function(request, response) {
-    //update Product document
-    var query = { _id : request.body.id},
-        update = {
-          name : request.body.name,
-          description : request.body.description,
-          techSpecs : request.body.techSpecs,
-        };
-  
-    Product.update(query, update, function(err, numAffected) {
-      response.setHeader('Content-Type', 'application/json');
-      response.send({ status : 'success', numAffected : numAffected });
-    });
-});
-
-app.route('/getProduct')
-  .get(function(request, response) {
-    //get productId from request
-    var id = request.query.id;
-    Product.findById(id, function (err, product) {
-      if (err) {
-        return console.error(err);
-      }
-      response.setHeader('Content-Type', 'application/json');
-      response.send(product);
-    });
-});
-
-app.route('/deleteProduct')
-  .post(function(request, response) {
-    var id = request.body.id;
-    Product.remove({ _id : id }, function(err) {
-      if (err) {
-        return console.error(err);
-      }
-      response.setHeader('Content-Type', 'application/json');
-      response.send({ status : 'success' });
-    });
-});
-
+//send any uncaught route to the 404 page
 app.route('*')
   .all(function(request, response) {
     response.status(404).sendFile(__dirname + '/app/views/404.html');

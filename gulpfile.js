@@ -105,13 +105,16 @@ gulp.task('styles', function() {
 });
 
 gulp.task('copyFiles', function() {
-  return gulp.src('app/js/*')
+  gulp.src('app/js/*')
     .pipe(gulp.dest('public/js/components'));
+  gulp.src('app/views/*')
+    .pipe(gulp.dest('public/views'));
 });
 
 gulp.task('watch', function() {
   gulp.watch('app/stylesheets/**/*.less', ['styles']);
   gulp.watch('app/js/**/*.js', ['copyFiles']);
+  gulp.watch('app/views/**/*.html', ['copyFiles']);
 });
 
 gulp.task('default', ['styles', 'copyFiles', 'vendor', 'watch']);

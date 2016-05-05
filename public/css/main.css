@@ -8053,16 +8053,17 @@ label {
 .navbar #signupContainer .caret.signup {
   margin-left: 5px;
 }
-.navbar-default .navbar-nav > li#usernameContainer > a:hover,
-.navbar-default .navbar-nav > li#usernameContainer > a:focus,
-.navbar-default .navbar-nav > li#signupAddContainter > a:hover,
-.navbar-default .navbar-nav > li#signupAddContainter > a:focus {
-  color: #353f44;
-  background-color: #fff;
-  cursor: default;
+.navbar-default #navbar .navbar-nav > li a:hover,
+.navbar-default #navbar .navbar-nav > li a:focus {
+  color: #333;
+  background-color: #f6f7f7;
+  cursor: pointer;
 }
 .navbar #signupAddContainter {
   font-style: italic;
+}
+.navbar #usernameContainer #user {
+  margin-left: 7px;
 }
 .title {
   margin-bottom: 20px;

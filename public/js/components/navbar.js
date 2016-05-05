@@ -46,8 +46,13 @@ $(function() {
           "<ul class='nav navbar-nav navbar-right'>" +
             "<li class='dropdown' id='signupContainer'></li>" +
             "<li class='dropdown' id='loginContainer'></li>" +
-            "<li id='usernameContainer'></li>" +
-            "<li id='logoutContainer'></li>" +
+            "<li class='dropdown' id='usernameContainer'>" + 
+              "<a href='#' id='user' class='dropdown-toggle user' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'></a>" +
+              "<ul class='dropdown-menu'>" +
+                "<li><a id='accountSettings' href='/accountSettings'>Account Settings</a></li>" + 
+                "<li><a id='logoutButton'>Logout</a></li>" + 
+              "</ul>" +
+            "</li>" +
           "</ul>" +
         "</div>" +
       "</div>"
@@ -83,10 +88,12 @@ $(function() {
     $('#signupAddContainter').children().remove();
 
     //show user in navbar
-    $('#usernameContainer').append("<a>Hi, "  + user.username + "!</a>");
-    
-    //show logout button
-    $('#logoutContainer').append("<a>Logout</a>");
+    $('#usernameContainer #user')
+      .html(
+        "Hi, " + user.username + "!" +
+        "<span id='user' class='caret signup'></span>"
+      );
+    $('#usernameContainer').show();
     
     //display the 'edit' buttons on the products
     $('.edit-button').show();
@@ -99,8 +106,7 @@ $(function() {
   //hide username, logout button (if displayed)
   function showForms() {
     
-    $('#logoutContainer').children().remove();
-    $('#usernameContainer').children().remove();
+    $('#usernameContainer').hide();
     $('#addProductContainter').children().remove();
     $('.edit-button').hide();
     
@@ -185,7 +191,10 @@ $(function() {
     });
   
   //user clicks logout button
-  $("#logoutContainer").click(function() {
+  $("#logoutButton").click(function(e) {
+    
+    e.preventDefault();
+    
     $.ajax({
       type : 'get',
       url : '/logout'

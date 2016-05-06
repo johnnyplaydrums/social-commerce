@@ -3,3 +3,6 @@ node_modules
 bower_components
 .DS_STORE
 /public/img/*
+/public/js/*
+/public/css/*
+/public/views/*

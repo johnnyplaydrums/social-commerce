@@ -39,11 +39,12 @@ $(function() {
         .text(response[i].name);
       body = $('<div>')
         .addClass('panel-body');
-      img = $('<div>').addClass('image-container')
-        .append(
-          $('<img>')
-            .addClass('product-image')
-            .attr('src', '/img/' + response[i].img));
+      img = $('<div>')
+        .addClass('image-container')
+        .css('background', 'url("/img/' + response[i].img + '") no-repeat')
+        .css('background-size', 'contain')
+        .css('height', '175px');
+      
       ratingContainer = $('<div class="starsContainer">');
       averageRating = $('<div class="starContainer">')
         .attr('data-averageRating', response[i].averageRating)

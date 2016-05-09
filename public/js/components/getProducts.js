@@ -41,10 +41,9 @@ $(function() {
         .addClass('panel-body');
       img = $('<div>')
         .addClass('image-container')
+        .addClass('dynamic')
         .css('background', 'url("/img/' + response[i].img + '") no-repeat')
-        .css('background-size', 'contain')
-        .css('height', '175px');
-      
+        .css('background-size', 'contain');
       ratingContainer = $('<div class="starsContainer">');
       averageRating = $('<div class="starContainer">')
         .attr('data-averageRating', response[i].averageRating)
@@ -60,7 +59,7 @@ $(function() {
       detailsButton = $('<a>')
         .addClass('btn btn-primary')
         .text('Details')
-        .attr('href', '/product?' + response[i]._id);
+        .attr('href', '/product?id=' + response[i]._id);
        editButton = $('<a>')
         .addClass('btn btn-primary')
         .addClass('edit-button')
@@ -91,49 +90,21 @@ $(function() {
       container.append(col);  
     }
     
-//    $('.starsContainer').mouseenter(function() {
-//      $(this).children().remove();
-//      $(this)
-//        .append($('<span class="starRating display">')
-//          .append('<input id="rating5" type="radio" name="rating" value="5">',
-//                  '<label for="rating5">5</label>',
-//                  '<input id="rating4" type="radio" name="rating" value="4">',
-//                  '<label for="rating4">4</label>',
-//                  '<input id="rating3" type="radio" name="rating" value="3">',
-//                  '<label for="rating3">3</label>',
-//                  '<input id="rating2" type="radio" name="rating" value="2">',
-//                  '<label for="rating2">2</label>',
-//                  '<input id="rating1" type="radio" name="rating" value="1">',
-//                  '<label for="rating1">1</label>'));
-//    });
-    
-//    $('.starContainer').mouseleave(function() {
-//      $(this).children().remove();
-//      $(this)
-//        .append($('<p>')
-//          .addClass('starRating display')
-//          .append($('<span class="star"></span>'),$('<span class="star"></span>'),
-//                  $('<span class="star"></span>'),$('<span class="star"></span>'),
-//                  $('<span class="star"></span>')));
-//      
-//      for (j = 0; j < 5; j++) {
-//        if (j >= $(this).attr('data-averageRating')) {
-//          $(this).find('p').children()[j]
-//            .append(
-//              $('<img>').attr('src', '/fonts/star-off.svg')
-//            );
-//        } else {
-//          $($(this).find('p').children()[j])
-//            .append(
-//              $('<img>').attr('src', '/fonts/star-on.svg')
-//            );
-//        }
-//      }
-//      
-//    });
-    
     //check if user is logged in before displaying edit button
     displayEditButton($('.edit-button'));
+    
+    $(window).resize(function() {
+      if ($(window).width() < 800) {
+        $('.image-container.dynamic').each(function() {
+          $(this).css('height', $(this).width());
+        });
+      } else {
+        $('.image-container.dynamic').each(function() {
+          $(this).css('height', '185px');
+        });
+      }
+    });
+    
   }
   
   //if user is logged in, add the edit button
@@ -146,6 +117,7 @@ $(function() {
         editButtons.show();
       }
     }).fail(function(xhr, status, message) {
+      
     });
   }
   
@@ -158,6 +130,7 @@ $(function() {
         reviewButton.show();
       }
     }).fail(function(xhr, status, message) {
+      
     });
   }
   

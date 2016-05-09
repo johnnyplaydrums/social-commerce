@@ -1,19 +1,26 @@
 $(function() {
   
-  //ajax call to load products
-  // GET /getProducts
   $.ajax({
-    type : 'GET',
-    url : '/getProducts'
+    type : 'get',
+    url : '/getFriendProducts'
   }).done(function(response) {
-    displayProducts(response);
-  }).fail(function(xhr, status, message) { 
-    toastr.error('Something went wrong!');
+    if (response.status === 'error') {
+      toastr.error('Something went wrong. Please reload the page.');
+    } else if (response.status === 'no user') {
+      
+    } else if (!response.products || !response.products.length) {
+      $("#friends-products-field").hide(); 
+    } else {
+      displayProducts(response.products);
+    }
+  }).fail(function() {
+    console.log('fail');
   });
   
+    
   //display the produts
   function displayProducts(response) {
-    var container = $('.products-field .container'),
+    var container = $('#friends-products-field'),
         col,
         panel,
         heading,
@@ -55,6 +62,8 @@ $(function() {
       writeReview = $('<a>')
         .addClass('write-review')
         .html('Write a review!')
+        .css('margin-bottom', '10px')
+        .css('display', 'block')
         .attr('href', '/createReview?id=' + response[i]._id);
       detailsButton = $('<a>')
         .addClass('btn btn-primary')
@@ -89,6 +98,8 @@ $(function() {
       col.append(panel);
       container.append(col);  
     }
+    
+    $('<br>').insertAfter(container);
     
     //check if user is logged in before displaying edit button
     displayEditButton($('.edit-button'));

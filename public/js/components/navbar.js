@@ -40,16 +40,38 @@ $(function() {
           "</form>" +
           "<ul class='nav navbar-nav leftList'>" +
             "<li><a href='/'>Home</a></li>" +
-            "<li id='addProductContainter'></li>" +
-            "<li id='signupAddContainter'></li>" +
+            "<li id='usersContainer' style='display: none;'><a href='/users'>Users</a></li>" +
+            "<li id='addProductContainter' style='display: none;'></li>" +
+            "<li id='signupAddContainter' style='display: none;'>" +
+              "<a>Sign up or log in to add products!</a>" +
+            "</li>" +
           "</ul>"  +
           "<ul class='nav navbar-nav navbar-right'>" +
-            "<li class='dropdown' id='signupContainer'></li>" +
-            "<li class='dropdown' id='loginContainer'></li>" +
-            "<li class='dropdown' id='usernameContainer'>" + 
+            "<li class='dropdown' id='signupContainer' style='display: none;'>" +
+              "<a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>Signup<span class='caret signup'></span></a>" +
+              "<ul class='dropdown-menu userForm'>" +
+                "<form id='signup'>" +
+                  "<input type='text' class='form-control' name='username' id='signupUsername' placeholder='Username'>" + 
+                  "<input type='password' class='form-control' name='password' id='signupPassword' placeholder='Password'>" + 
+                  "<input type='password' class='form-control' name='confirmPassword' id='signupConfirmPassword' placeholder='Confirm Password'>" +
+                  "<button class='btn btn-primary' id='userFormButton' type='submit'>Sign Up</button>" +
+                "</form>" +
+              "</ul>" +
+            "</li>" +
+            "<li class='dropdown' id='loginContainer' style='display: none;'>" +
+              "<a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>Login <span class='caret'></span></a>" +
+              "<ul class='dropdown-menu userForm'>" +
+                "<form id='login'>" +
+                  "<input type='text' class='form-control' name='username' id='loginUsername' placeholder='Username'>" + 
+                  "<input type='password' class='form-control' name='password' placeholder='Password'>" + 
+                  "<button class='btn btn-primary' id='userFormButton' type='submit'>Log In</button>" +
+                "</form>" +
+              "</ul>" +
+            "</li>" +
+            "<li class='dropdown' id='usernameContainer' style='display: none;'>" + 
               "<a href='#' id='user' class='dropdown-toggle user' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'></a>" +
               "<ul class='dropdown-menu'>" +
-                "<li><a id='accountSettings' href='/accountSettings'>Account Settings</a></li>" + 
+                "<li><a id='accountSettings' href='/myAccount'>My Account</a></li>" + 
                 "<li><a id='logoutButton'>Logout</a></li>" + 
               "</ul>" +
             "</li>" +
@@ -83,10 +105,10 @@ $(function() {
   function showUser(user) {
     
     //remove login/signup and signupAdd
-    $('#signupContainer').removeClass('open').children().remove(); 
-    $('#loginContainer').removeClass('open').children().remove();
-    $('#signupAddContainter').children().remove();
-
+    $('#signupContainer').hide();
+    $('#loginContainer').hide();
+    $('#signupAddContainter').hide();
+    
     //show user in navbar
     $('#usernameContainer #user')
       .html(
@@ -98,8 +120,19 @@ $(function() {
     //display the 'edit' buttons on the products
     $('.edit-button').show();
     
+    //display 'edit' button for product
+    $('#editLink').show();
+    
+    //display 'users' link
+    $('#usersContainer').show();
+    
+    //show products friends have reviewed
+    $('#friends-products-field').show();
+    
     //show the 'add product' button
-    $('#addProductContainter').append("<a href='/addProduct'>Add Product</a>");
+    $('#addProductContainter')
+      .append("<a href='/addProduct'>Add Product</a>")
+      .show();
   }
   
   //show login and signup forms
@@ -107,37 +140,18 @@ $(function() {
   function showForms() {
     
     $('#usernameContainer').hide();
-    $('#addProductContainter').children().remove();
+    $('#addProductContainter').hide();
     $('.edit-button').hide();
+    $('#editLink').hide();
+    $('#usersContainer').hide();
+    $('#friends-products-field').hide();
     
     //show signupAdd
-    $('#signupAddContainter').append('<a>Sign up or log in to add products!</a>');
-    
-    //display signup form
-    $('#signupContainer').append(
-      "<a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>Signup<span class='caret signup'></span></a>" +
-      "<ul class='dropdown-menu userForm'>" +
-        "<form id='signup'>" +
-          "<input type='text' class='form-control' name='username' id='signupUsername' placeholder='Username'>" + 
-          "<input type='password' class='form-control' name='password' id='signupPassword' placeholder='Password'>" + 
-          "<input type='password' class='form-control' name='confirmPassword' id='signupConfirmPassword' placeholder='Confirm Password'>" +
-          "<button class='btn btn-primary' id='userFormButton' type='submit'>Sign Up</button>" +
-        "</form>" +
-      "</ul>"
-    );
-    
-    //display login form
-    $('#loginContainer').append(
-      "<a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>Login <span class='caret'></span></a>" +
-      "<ul class='dropdown-menu userForm'>" +
-        "<form id='login'>" +
-          "<input type='text' class='form-control' name='username' id='loginUsername' placeholder='Username'>" + 
-          "<input type='password' class='form-control' name='password' placeholder='Password'>" + 
-          "<button class='btn btn-primary' id='userFormButton' type='submit'>Log In</button>" +
-        "</form>" +
-      "</ul>"
-    );
-    
+    if ($(window).width() > 1000) {
+      $('#signupAddContainter').show();
+    }
+    $('#signupContainer').show();
+    $('#loginContainer').show();
   }
   
   /** event listeners/bindings **/
@@ -162,7 +176,7 @@ $(function() {
       data : data
     }).done(function(response) {
       if (response.loggedIn) {
-        showUser(response.user);
+        location.reload();
       } else if (response.status === 'username taken') {
         toastr.error('Username is taken!', { fadeAway: 2500 });
       }
@@ -203,6 +217,11 @@ $(function() {
     }).fail(function(xhr, status, message) {
       toastr.error('Oh no! There was an error. Please try again.');
     });
+  });
+  
+  //user clicks sign up/login text
+  $('#signupAddContainter').click(function() {
+    $('#userForm').css('display', 'block');
   });
     
 });

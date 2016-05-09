@@ -1,7 +1,29 @@
 $(function() {
   
+  //product id
+  var id = document.URL.split('id=')[1];
+  
   //set hidden input field with id of product
-  $('#productId').val(document.URL.split('id=')[1]);
+  $('#productId').val(id);
+  
+  //get product information
+  $.ajax({
+    type : 'get',
+    url : '/getProduct',
+    data : { id : id }
+  }).done(function(response) {
+    showName(response.name);
+  }).fail(function() {
+    
+  });
+  
+  function showName(name) {
+    $('.panel-heading').append(
+      $('<a>')
+        .attr('href', '/product?id=' + id)
+        .html(name)
+    );
+  }
   
   //handle review submission
   $('#createReview').submit(function(e) {
@@ -15,7 +37,7 @@ $(function() {
       if (response.status === 'error') {
         toastr.error('Oh no! There was an error. Please try again');
       } else if (response.status === 'success') {
-        toastr.success('Review saved!');
+        location = '/product?id=' + id;
       }
     }).fail(function(xhr, status, message) {
     });

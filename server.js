@@ -27,7 +27,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cookieParser()); 
+app.use(cookieParser());
 
 /***** Passport *****/
 app.use(session({ secret: 'ilovescotch', resave: false })); // session secret
@@ -45,10 +45,14 @@ router.use(function(req, res, next) {
 });
 
 /***** Routes *****/
+//pages
 app.use(require('./routes/index'));
+app.use(require('./routes/product'));
+app.use(require('./routes/products'));
+
+//methods
 app.use(require('./routes/getProduct'));
 app.use(require('./routes/getProducts'));
-app.use(require('./routes/products'));
 app.use(require('./routes/signup'));
 app.use(require('./routes/login'));
 app.use(require('./routes/logout'));
@@ -57,6 +61,8 @@ app.use(require('./routes/addProduct'));
 app.use(require('./routes/editProduct'));
 app.use(require('./routes/deleteProduct'));
 app.use(require('./routes/createReview'));
+app.use(require('./routes/getReviews'));
+app.use(require('./routes/users'));
 
 app.use('/', router);
 

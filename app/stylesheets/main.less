@@ -789,8 +789,22 @@ label {
 
 /***** Global *****/
 
+br {
+  clear: both;
+}
+
 .help-block { 
   color: red!important;
+}
+
+.image-container {
+  height: 185px;
+}
+
+@media (min-width: 800px) { 
+  .image-container {
+  
+  }
 }
 
 /* Navbar */
@@ -798,6 +812,12 @@ label {
 @media (min-width: 800px) {
   .navbar-right {
     margin-right: 0;
+  }
+}
+
+@media (max-width: 1000px) {
+  #signupAddContainter {
+    display: none;
   }
 }
 
@@ -930,6 +950,15 @@ label {
   cursor: pointer;
 }
 
+/***** Show product *****/
+.product-field .control-label {
+  font-weight: bold;
+}
+
+.product-field .reviews {
+  margin: 0;
+}
+
 /***** Edit Product *****/
 #editProduct #changePicture {
   font-style: italic;
@@ -944,10 +973,23 @@ label {
   margin: 10px 0;
 }
 
+/***** Product page *****/
+#reviews .no-reviews {
+  margin: 20px;
+}
+
+/***** users *****/
+.users-field .panel-body .btn {
+  width: 100%;
+  margin-top: 20px;
+}
+
 /***** Permission Error *****/
 .permissionError a {
   margin: 20px;
   width: 120px;
   padding: 12px 20px;
 }
+
+
 

@@ -8,6 +8,7 @@ var express = require('express'),
 router.get('/editProduct', function(req, res) {
   if (!req.user) {
     res.sendFile(path.join(__dirname, '/../public/views/permissionError.html'));
+    return;
   }
   res.sendFile(path.join(__dirname + '/../public/views/editProduct.html'));
 });
@@ -15,6 +16,7 @@ router.get('/editProduct', function(req, res) {
 router.post('/editProduct', multer({ dest: path.join(__dirname, '/../public/img/')}).single('newPicture'), function(req, res) {
   if (!req.user) {
     res.sendFile(path.join(__dirname, '/../public/views/permissionError.html'));
+    return;
   }
   
   //update Product document

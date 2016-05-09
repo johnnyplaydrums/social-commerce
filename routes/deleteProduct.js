@@ -7,6 +7,7 @@ var express = require('express'),
 router.post('/deleteProduct', function(req, res) {
   if (!req.user) {
     res.sendFile(path.join(__dirname, '/../public/views/permissionError.html'));
+    return;
   }
   
   var id = req.body.id;

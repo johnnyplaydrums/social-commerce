@@ -4,17 +4,18 @@ $(function() {
     type : 'get',
     url : '/getFriendProducts'
   }).done(function(response) {
+
     if (response.status === 'error') {
       toastr.error('Something went wrong. Please reload the page.');
     } else if (response.status === 'no user') {
       
-    } else if (!response.products || !response.products.length) {
-      $("#friends-products-field").hide(); 
+    } else if (!response.products.length) {
+      $("#friends-products-field").append('<span class="no-friends">Go to the <a href="/users/">Users</a> page to add friends!</span>').show(); 
     } else {
       displayProducts(response.products);
     }
   }).fail(function() {
-    console.log('fail');
+    toastr.error('Something went wrong. Please reload the page.');
   });
   
     

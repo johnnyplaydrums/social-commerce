@@ -1,16 +1,16 @@
-//retrieve users list from server
+//retrieve friends list from server
 $(function() {
   
   $.ajax({
     type : 'get',
-    url : '/getUsers',
+    url : '/getFriends',
   }).done(function(response) {
-    displayUsers(response);
-  }).fail(function() {
+    displayFriends(response);
+  }).fail(function(xhr, status, message) {
   });
   
-  function displayUsers(data) {
-    var users = data.users,
+  function displayFriends(data) {
+    var friends = data.friends,
         user = data.user,
         container = $('.users-field .container'),
         col,
@@ -19,20 +19,24 @@ $(function() {
         body,
         img,
         addFriend,
-        friends,
+        areFriends,
         unfriend,
         br,
         i,
         j;
     
-    for (i = 0; i < users.length; i++) {
+    if (friends.length === 0) {
+      container.html('<span class="no-friends">Go to the <a href="/users/">Users</a> page to add friends!</span>');
+    }
+    
+    for (i = 0; i < friends.length; i++) {
       col = $('<div>')
         .addClass('col-xs-6 col-sm-3');
       panel = $('<div>')
         .addClass('panel panel-default');
       heading = $('<div>')
         .addClass('panel-heading')
-        .text(users[i].username);
+        .text(friends[i].username);
       body = $('<div>')
         .addClass('panel-body');
       img = $('<img>')
@@ -42,8 +46,8 @@ $(function() {
         .addClass('btn btn-primary')
         .html('Add friend!')
         .addClass('addFriend')
-        .attr('data-username', users[i].username);
-      friends = $('<a>')
+        .attr('data-username', friends[i].username);
+      areFriends = $('<a>')
         .addClass('btn btn-success friends')
         .css('width', '45%')
         .css('display', 'none')
@@ -53,17 +57,17 @@ $(function() {
         .css('width', '45%')
         .css('display', 'none')
         .html('Unfriend')
-        .attr('data-username', users[i].username);
+        .attr('data-username', friends[i].username);
       br = $('<br>');
       for (j = 0; j < user.friends.length; j++) {
-        if (user.friends[j] === users[i].username) {
+        if (user.friends[j] === friends[i].username) {
           addFriend.css('display', 'none');
-          friends.css('display', 'inline-block');
+          areFriends.css('display', 'inline-block');
           unfriend.css('display', 'inline-block');
         }
       }
       
-      body.append(img, br, addFriend, friends, unfriend);
+      body.append(img, br, addFriend, areFriends, unfriend);
       panel.append(heading, body);
       col.append(panel);
       container.append(col);  

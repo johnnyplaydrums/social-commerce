@@ -60,8 +60,8 @@ function updateAverage(req, res) {
       }
       average = sum / reviews.length;
       
-      //update average rating
-      product.averageRating = average;
+      //update average rating, rounded
+      product.averageRating = Math.round(average);
 
       //save the product
       product.save(function (err) {

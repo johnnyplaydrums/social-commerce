@@ -41,7 +41,7 @@ $(function() {
     }
     
     for (i = 0; i < data.length; i++) {
-      col = $('<div class="col-sm-3">');
+      col = $('<div class="col-sm-6 col-md-4 col-lg-3">');
       container = $('<div class="panel-body">');
       panel = $('<div class="panel panel-default">');
       heading = $('<div class="panel-heading">')
@@ -92,17 +92,22 @@ $(function() {
     $('#editLink').attr('href', '/editProduct?id=' + data._id);
     
     $("#picture")
-      .css('background', 'url("/img/' + data.img + '") no-repeat')
-      .css('background-size', 'contain')
-      .css('height', '300px');
+      .addClass('dynamic')
+      .addClass('image-container')
+      .css('background', 'url("/img/' + data.img + '") no-repeat center center')
+      .css('background-size', 'contain');
+    
+    if ($(window).width() < 800) {
+      $('#picture').css('height', $('#picture').width());
+    }
     
     $(window).resize(function() {
       if ($(window).width() < 800) {
-        $('.product-image').each(function() {
+        $('.image-containter.dynamic').each(function() {
           $(this).css('height', $(this).width());
         });
       } else {
-        $('.product-image').each(function() {
+        $('.image-container.dynamic').each(function() {
           $(this).css('height', '300px');
         });
       }

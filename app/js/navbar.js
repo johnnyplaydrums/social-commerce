@@ -32,7 +32,7 @@ $(function() {
         "<div id='navbar' class='navbar-collapse collapse'>" +
           "<form name='searchForm' class='navbar-form navbar-left animated'>" +
             "<div class='input-group'>" +
-              "<input type='text' class='form-control' placeholder='Search' />" +
+              "<input type='text' class='form-control' placeholder='Search Products' />" +
               "<span class='input-group-btn'>" +
                 "<button class='btn btn-default'><span class='glyphicon glyphicon-search'></span></button>" +
               "</span>" +
@@ -43,7 +43,7 @@ $(function() {
             "<li id='usersContainer' style='display: none;'><a href='/users'>Users</a></li>" +
             "<li id='addProductContainter' style='display: none;'></li>" +
             "<li id='signupAddContainter' style='display: none;'>" +
-              "<a>Sign up or log in to add products!</a>" +
+              "<a>Sign up to access the full E-Commerce Now site!</a>" +
             "</li>" +
           "</ul>"  +
           "<ul class='nav navbar-nav navbar-right'>" +
@@ -71,7 +71,7 @@ $(function() {
             "<li class='dropdown' id='usernameContainer' style='display: none;'>" + 
               "<a href='#' id='user' class='dropdown-toggle user' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'></a>" +
               "<ul class='dropdown-menu'>" +
-                "<li><a id='accountSettings' href='/myAccount'>My Account</a></li>" + 
+                "<li><a id='accountSettings' href='/account'>My Account</a></li>" + 
                 "<li><a id='logoutButton'>Logout</a></li>" + 
               "</ul>" +
             "</li>" +
@@ -79,6 +79,57 @@ $(function() {
         "</div>" +
       "</div>"
   );
+  
+  //add hidden signup modal to page
+  container.append(
+    "<div id='signupModal' class='modal'>" + 
+      "<div class='modal-content'>" +
+        "<span id='closeButton'>×</span>" +
+        "<div class='panel panel-default'>" +
+          "<div class='panel-heading'>Sign up for E-Commerce Now!</div>" +
+          "<div class='panel-body'>" +
+            "<form id='signupModal'>" +
+              "<input type='text' class='form-control' name='username' id='signupUsernameModal' placeholder='Username'>" +
+              "<input type='password' class='form-control' name='password' id='signupPasswordModal' placeholder='Password'>" +
+              "<input type='password' class='form-control' name='confirmPassword' id='signupConfirmPasswordModal' placeholder='Confirm Password'>" +
+              "<button class='btn btn-primary' id='userFormButtonModal' type='submit'>" +
+                "Sign Up" +
+              "</button>" +
+            "</form>" +
+          "</div>" +
+        "</div>" +
+      "</div>" +
+    "</div>"
+  );
+  
+    //when the user submits the signup form
+  $('#signupModal').submit(function(e) {
+    //prevent standard form submission
+    e.preventDefault();
+    
+    //ensure passwords match
+    if ($('#signupConfirmPasswordModal').val() !== $('#signupPasswordModal').val()) {
+      toastr.error('Passwords don\'t match!', { fadeAway: 2500 });
+      return; 
+    }
+    
+    //create query string from input fields
+    var data = 'username=' + $('#signupUsernameModal').val() + '&password=' + $('#signupPasswordModal').val();
+    
+    $.ajax({
+      type : 'post',
+      url : '/signup',
+      data : data
+    }).done(function(response) {
+      if (response.loggedIn) {
+        location.reload();
+      } else if (response.status === 'username taken') {
+        toastr.error('Username is taken!', { fadeAway: 2500 });
+      }
+    }).fail(function(xhr, status, message) {
+      toastr.error('Oh no! There was an error. Please try again.');
+    });
+  });
   
   //if user is logged in, add forms to navbar
   //else add the user information
@@ -179,9 +230,11 @@ $(function() {
         location.reload();
       } else if (response.status === 'username taken') {
         toastr.error('Username is taken!', { fadeAway: 2500 });
+        $('#signupContainer .dropdown-toggle').click();
       }
     }).fail(function(xhr, status, message) {
       toastr.error('Oh no! There was an error. Please try again.');
+      $('#signupContainer .dropdown-toggle').click();
     });
   });
   
@@ -197,10 +250,12 @@ $(function() {
           location.reload();  
         } else if (response.status === 'no user') {
           toastr.error('Invalid username and/or password', { fadeAway: 2500 });
+          $('#loginContainer .dropdown-toggle').click();
         }
         
       }).fail(function(xhr, status, message) {
         toastr.error('Oh no! There was an error. Please try again.');
+        $('#signupContainer .dropdown-toggle').click();
       });
     });
   
@@ -219,9 +274,27 @@ $(function() {
     });
   });
   
+  // Get the modal
+  var modal = document.getElementById('signupModal');
+
+  // Get the <span> element that closes the modal
+  var span = document.getElementById('closeButton');
+
+  //event listeners for singup modal
+  $(span).click(function() {
+    $(modal).hide();
+  });
+  
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  };
+  
   //user clicks sign up/login text
   $('#signupAddContainter').click(function() {
-    $('#userForm').css('display', 'block');
+    $(modal).show();
   });
-    
+  
 });

@@ -1,6 +1,3 @@
-// Babel ES6/JSX Compiler
-require('babel-register');
-
 var express = require('express');
 var app = express();
 var config = require('./config/dbconfig');
@@ -37,20 +34,13 @@ app.use(passport.session()); // persistent login sessions
 /***** Router *****/
 var router = express.Router();
 
-router.use(function(req, res, next) {
-    // log each request to the console
-    console.log(req.method, req.url);
-    // continue doing what we were doing and go to the route
-    next(); 
-});
-
 /***** Routes *****/
-//pages
+
 app.use(require('./routes/index'));
 app.use(require('./routes/product'));
 app.use(require('./routes/products'));
-
-//methods
+app.use(require('./routes/users'));
+app.use(require('./routes/account'));
 app.use(require('./routes/getProduct'));
 app.use(require('./routes/getProducts'));
 app.use(require('./routes/signup'));
@@ -62,9 +52,8 @@ app.use(require('./routes/editProduct'));
 app.use(require('./routes/deleteProduct'));
 app.use(require('./routes/createReview'));
 app.use(require('./routes/getReviews'));
-app.use(require('./routes/users'));
 
-app.use('/', router);
+//app.use('/', router);
 
 //send any uncaught route to the 404 page
 app.route('*')

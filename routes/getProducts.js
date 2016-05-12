@@ -25,13 +25,14 @@ router.get('/getFriendProducts', function(req, res) {
     if (err) {
       return res.send({ status : 'error'});
     }
+
     //remove reviews that weren't made by friends
     for (i = 0; i < reviews.length; i++) {
-      if (req.user.friends.indexOf(reviews[i].createdBy) > 0) {
+      if (req.user.friends.indexOf(reviews[i].createdBy) >= 0) {
         friendReviews.push(reviews[i]);
       }
     }
-    console.log(friendReviews);
+
     Product.find(function(err, products) {
       var i,
           j;
@@ -58,7 +59,6 @@ function getProduct(id) {
     if (err) {
       return { status : 'error'};
     }
-    console.log(product);
     return product;
   });
 }

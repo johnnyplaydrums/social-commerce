@@ -42,7 +42,7 @@ $(function() {
       img = $('<div>')
         .addClass('image-container')
         .addClass('dynamic')
-        .css('background', 'url("/img/' + response[i].img + '") no-repeat')
+        .css('background', 'url("/img/' + response[i].img + '") no-repeat center center')
         .css('background-size', 'contain');
       ratingContainer = $('<div class="starsContainer">');
       averageRating = $('<div class="starContainer">')

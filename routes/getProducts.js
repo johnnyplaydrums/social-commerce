@@ -13,6 +13,20 @@ router.get('/getProducts', function(req, res) {
     });
 });
 
+router.get('/getMyProducts', function(req, res) {
+  if (!req.user) {
+    return res.send({ status : 'no user'});
+  }
+  Product.find({ createdBy : req.user.username }, function(err, products) {
+    if (err) {
+      return res.send({ status : 'error'});
+    }
+    
+    res.send(products);
+    
+  });
+});
+
 router.get('/getFriendProducts', function(req, res) {
   var productsArray = [];
   if (!req.user) {

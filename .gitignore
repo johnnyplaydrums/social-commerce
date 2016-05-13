@@ -6,3 +6,6 @@ bower_components
 /public/js/*
 /public/css/*
 /public/views/*
+
+!/public/img/placeholder.jpg
+!/public/img/avatar.png

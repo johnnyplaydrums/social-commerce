@@ -35,7 +35,6 @@ app.use(passport.session()); // persistent login sessions
 var router = express.Router();
 
 /***** Routes *****/
-
 app.use(require('./routes/index'));
 app.use(require('./routes/product'));
 app.use(require('./routes/products'));

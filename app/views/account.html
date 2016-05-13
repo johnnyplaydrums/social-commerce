@@ -21,10 +21,10 @@
                 <form id='accountInfo' role='form'>
                   <div class='form-group'>
                     <label class='control-label'>Username</label>
-                    <input type='text' class='form-control' name='username' autoFocus/>
+                    <input type='text' class='form-control' name='username' id='updateUsername' autoFocus/>
                     <span class='help-block'></span>
                   </div>
-                  <button type='submit' class='btn btn-primary'>Update Info</button>
+                  <button type='submit' class='btn btn-primary' id='submitButton' disabled>Update Info</button>
                 </form>
               </div>
             </div>
@@ -35,6 +35,12 @@
         <h3 class='title'>Friends</h3>
         <div class='container'></div>
       </div>
+      
+      <div id='myProducts-field'>
+        <h3 class='title'>Products I've Created</h3>
+        <div class='container'></div>
+      </div>
+      
     </div>
     
     <script src='/js/vendor.js'></script>
@@ -43,6 +49,7 @@
     <script src='/js/components/navbar.js'></script>
     <script src='/js/components/getUser.js'></script>
     <script src='/js/components/getFriends.js'></script>
+    <script src='/js/components/getMyProducts.js'></script>
     
   </body>
 </html>

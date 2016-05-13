@@ -29,9 +29,9 @@ router.post('/addProduct', multer({ dest: path.join(__dirname, '/../public/img/'
     averageRating : req.body.rating ? req.body.rating : 0,
     img : req.file ? req.file.filename : 'placeholder.jpg',
     numReviews : 1,
-    createdBy : req.body.username
+    createdBy : req.user.username
   });
-
+console.log(product);
 
   //save product object to database
   product.save(function(err) {

@@ -11,7 +11,7 @@ $(function() {
   }).done(function(response) {
     showProduct(response);
   }).fail(function() {
-    console.log('fail');
+    toastr.error('Oh no! Something went wrong. Please reload page.');
   });
   
   $.ajax({
@@ -21,7 +21,7 @@ $(function() {
   }).done(function(response) {
     showReviews(response);
   }).fail(function() {
-    console.log('fail');
+    toastr.error('Oh no! Something went wrong. Please reload page.');
   });
   
   function showReviews(data) {
@@ -82,7 +82,7 @@ $(function() {
   }
   
   function showProduct(data) {
-    console.log(data);
+    
     var attr;
     for (attr in data) {
       $("[data-name=" + attr + "]").html(data[attr]);

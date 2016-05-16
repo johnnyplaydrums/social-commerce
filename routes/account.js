@@ -19,7 +19,6 @@ router.get('/getUser', function(req, res) {
 });
 
 router.post('/updateUsername', function(req, res) {
-  console.log(req.body.newUsername);
   User.findOne({ username : req.body.newUsername }, function(err, user) {
     if (err) {
       return res.send({ status : 'error'});

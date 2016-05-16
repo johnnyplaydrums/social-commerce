@@ -19,6 +19,10 @@ router.get('/getUser', function(req, res) {
 });
 
 router.post('/updateUsername', function(req, res) {
+  if (!req.user) {
+    return res.sendFile(path.join(__dirname + '/../public/views/permissionError.html'));
+  }
+  
   User.findOne({ username : req.body.newUsername }, function(err, user) {
     if (err) {
       return res.send({ status : 'error'});
@@ -47,5 +51,23 @@ router.post('/updateUsername', function(req, res) {
   
 });
 
+router.post('/changePassword', function(req, res) {
+  if (!req.user) {
+    return res.sendFile(path.join(__dirname + '/../public/views/permissionError.html'));
+  }
+  
+  User.findOne({ _id : req.user._id}, function(err, user) {
+    if (err) {
+      return res.send({ status : 'error'});
+    }
+    user.password = user.generateHash(req.body.password);
+    user.save(function(err) {
+      if (err) {
+        return res.send({ status : 'error'});
+      }
+      return res.send({ status : 'success' });
+    });
+  });
+});
 
 module.exports = router;

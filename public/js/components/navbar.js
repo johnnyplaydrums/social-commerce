@@ -30,14 +30,6 @@ $(function() {
             "</a>" +
         "</div>" +
         "<div id='navbar' class='navbar-collapse collapse'>" +
-          "<form name='searchForm' class='navbar-form navbar-left animated'>" +
-            "<div class='input-group'>" +
-              "<input type='text' class='form-control' placeholder='Search Products' />" +
-              "<span class='input-group-btn'>" +
-                "<button class='btn btn-default'><span class='glyphicon glyphicon-search'></span></button>" +
-              "</span>" +
-            "</div>" +
-          "</form>" +
           "<ul class='nav navbar-nav leftList'>" +
             "<li><a href='/'>Home</a></li>" +
             "<li id='usersContainer' style='display: none;'><a href='/users'>Users</a></li>" +
@@ -84,7 +76,7 @@ $(function() {
   container.append(
     "<div id='signupModal' class='modal'>" + 
       "<div class='modal-content'>" +
-        "<span id='closeButton'>×</span>" +
+        "<span class='closeButton' id='closeButtonSignup'>×</span>" +
         "<div class='panel panel-default'>" +
           "<div class='panel-heading'>Sign up for E-Commerce Now!</div>" +
           "<div class='panel-body'>" +
@@ -102,7 +94,7 @@ $(function() {
     "</div>"
   );
   
-    //when the user submits the signup form
+  //when the user submits the signup form
   $('#signupModal').submit(function(e) {
     //prevent standard form submission
     e.preventDefault();
@@ -278,7 +270,7 @@ $(function() {
   var modal = document.getElementById('signupModal');
 
   // Get the <span> element that closes the modal
-  var span = document.getElementById('closeButton');
+  var span = document.getElementById('closeButtonSignup');
 
   //event listeners for singup modal
   $(span).click(function() {

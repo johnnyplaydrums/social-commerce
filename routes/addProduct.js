@@ -45,7 +45,8 @@ console.log(product);
     productId : product._id,
     title : req.body.reviewTitle,
     description : req.body.reviewDescription,
-    rating : req.body.rating ? req.body.rating : 0
+    rating : req.body.rating ? req.body.rating : 0,
+    createdBy : req.user.username
   });
   
   //save review object to database

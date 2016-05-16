@@ -8,11 +8,9 @@ var concat = require('gulp-concat');
 var plumber = require('gulp-plumber');
 var buffer = require('vinyl-buffer');
 var source = require('vinyl-source-stream');
-var babelify = require('babelify');
 var browserify = require('browserify');
 var watchify = require('watchify');
 var uglify = require('gulp-uglify');
-var sourcemaps = require('gulp-sourcemaps');
 
 var production = process.env.NODE_ENV === 'production';
 
@@ -106,13 +104,16 @@ gulp.task('styles', function() {
 });
 
 gulp.task('copyFiles', function() {
-  return gulp.src('app/js/*')
-    .pipe(gulp.dest('public/js/components'))
+  gulp.src('app/js/*')
+    .pipe(gulp.dest('public/js/components'));
+  gulp.src('app/views/*')
+    .pipe(gulp.dest('public/views'));
 });
 
 gulp.task('watch', function() {
   gulp.watch('app/stylesheets/**/*.less', ['styles']);
   gulp.watch('app/js/**/*.js', ['copyFiles']);
+  gulp.watch('app/views/**/*.html', ['copyFiles']);
 });
 
 gulp.task('default', ['styles', 'copyFiles', 'vendor', 'watch']);

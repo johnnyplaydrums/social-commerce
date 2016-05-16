@@ -1,3 +1,11 @@
 activemq-data
 node_modules
 bower_components
+.DS_STORE
+/public/img/*
+/public/js/*
+/public/css/*
+/public/views/*
+
+!/public/img/placeholder.jpg
+!/public/img/avatar.png

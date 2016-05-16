@@ -1,19 +1,27 @@
 $(function() {
   
-  //ajax call to load products
-  // GET /getProducts
   $.ajax({
-    type : 'GET',
-    url : '/getProducts'
+    type : 'get',
+    url : '/getFriendProducts'
   }).done(function(response) {
-    displayProducts(response);
-  }).fail(function(xhr, status, message) { 
-    toastr.error('Something went wrong!');
+
+    if (response.status === 'error') {
+      toastr.error('Something went wrong. Please reload the page.');
+    } else if (response.status === 'no user') {
+      
+    } else if (!response.products.length) {
+      $("#friends-products-field").append('<span class="no-friends">Go to the <a href="/users/">Users</a> page to add friends!</span>').show(); 
+    } else {
+      displayProducts(response.products);
+    }
+  }).fail(function() {
+    toastr.error('Something went wrong. Please reload the page.');
   });
   
+    
   //display the produts
   function displayProducts(response) {
-    var container = $('.products-field .container'),
+    var container = $('#friends-products-field'),
         col,
         panel,
         heading,
@@ -42,7 +50,7 @@ $(function() {
       img = $('<div>')
         .addClass('image-container')
         .addClass('dynamic')
-        .css('background', 'url("/img/' + response[i].img + '") no-repeat center center')
+        .css('background', 'url("/img/' + response[i].img + '") no-repeat')
         .css('background-size', 'contain');
       ratingContainer = $('<div class="starsContainer">');
       averageRating = $('<div class="starContainer">')
@@ -55,6 +63,8 @@ $(function() {
       writeReview = $('<a>')
         .addClass('write-review')
         .html('Write a review!')
+        .css('margin-bottom', '10px')
+        .css('display', 'block')
         .attr('href', '/createReview?id=' + response[i]._id);
       detailsButton = $('<a>')
         .addClass('btn btn-primary')
@@ -89,6 +99,8 @@ $(function() {
       col.append(panel);
       container.append(col);  
     }
+    
+    $('<br>').insertAfter(container);
     
     //check if user is logged in before displaying edit button
     displayEditButton($('.edit-button'));

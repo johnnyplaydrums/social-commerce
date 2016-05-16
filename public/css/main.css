@@ -7467,7 +7467,6 @@ footer .thumb-md:hover {
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(0, 0, 0, 0.05);
 }
 .navbar-default .navbar-brand {
-  margin-left: 40px;
   font-size: 20px;
   font-weight: 700;
 }
@@ -8028,7 +8027,132 @@ label {
   -webkit-animation-delay: -500ms;
           animation-delay: -500ms;
 }
-/** Global **/
+/***** Global *****/
+br {
+  clear: both;
+}
+.help-block {
+  color: red!important;
+}
+.image-container {
+  height: 185px;
+}
+/* Navbar */
+@media (min-width: 800px) {
+  .navbar-right {
+    margin-right: 0;
+  }
+}
+@media (max-width: 1000px) {
+  #signupAddContainter {
+    display: none;
+  }
+}
+.navbar .userForm {
+  min-width: 180px;
+  padding: 10px;
+}
+.navbar .userForm input {
+  margin: 6px 0;
+}
+.navbar .userForm button {
+  width: 100%;
+}
+.navbar #logoutContainer:hover {
+  cursor: pointer;
+}
+.navbar #signupContainer .caret.signup {
+  margin-left: 5px;
+}
+.navbar-default #navbar .navbar-nav > li a:hover,
+.navbar-default #navbar .navbar-nav > li a:focus {
+  color: #333;
+  background-color: #f6f7f7;
+  cursor: pointer;
+}
+.navbar #signupAddContainter {
+  font-style: italic;
+}
+.navbar #usernameContainer #user {
+  margin-left: 7px;
+}
+/***** Singup modal *****/
+.modal .panel {
+  border-bottom: none;
+  box-shadow: none;
+}
+.modal input {
+  margin: 15px 0;
+}
+.modal .panel-body {
+  padding: 0 15px;
+}
+/* The Modal (background) */
+.modal {
+  z-index: 1;
+  /* Sit on top */
+  padding-top: 100px;
+  /* Location of the box */
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: #000000;
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Black w/ opacity */
+}
+/* Modal Content */
+.modal-content {
+  position: relative;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 40%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+}
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+/* The Close Button */
+.closeButton {
+  margin: -1px 10px 0;
+  color: gray;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.closeButton:hover,
+.closeButton:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+/***********************/
 .title {
   margin-bottom: 20px;
 }
@@ -8094,4 +8218,63 @@ label {
 .starRating.display .star img {
   width: 1.6em;
   height: 1.6em;
+}
+/***** Products display *****/
+.products-field {
+  clear: both;
+}
+.products-field .starContainer span {
+  margin-bottom: 10px;
+}
+.products-field .starContainer > span {
+  margin-left: -7px;
+}
+.products-field .write-review {
+  display: block;
+  margin-bottom: 10px;
+  font-style: italic;
+  font-size: 14px;
+  cursor: pointer;
+}
+/***** Show product *****/
+.product-field .control-label {
+  font-weight: bold;
+}
+.product-field .reviews {
+  margin: 0;
+}
+/***** Edit Product *****/
+#editProduct #changePicture {
+  font-style: italic;
+}
+#editProduct #changePicture:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+#editProduct #pictureInput {
+  margin: 10px 0;
+}
+/***** Product page *****/
+#reviews .no-reviews {
+  margin: 20px;
+}
+/***** users *****/
+.users-field .panel-body .btn {
+  width: 100%;
+  margin-top: 20px;
+}
+/***** Account page *****/
+.users-field .no-friends {
+  font-size: 16px;
+}
+/***** Reviews display *****/
+.reviews-field .starRating {
+  width: 100%;
+  text-align: center;
+}
+/***** Permission Error *****/
+.permissionError a {
+  margin: 20px;
+  width: 120px;
+  padding: 12px 20px;
 }

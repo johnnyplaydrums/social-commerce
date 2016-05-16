@@ -1,19 +1,26 @@
 $(function() {
   
-  //ajax call to load products
-  // GET /getProducts
+  //retrieve users products
   $.ajax({
-    type : 'GET',
-    url : '/getProducts'
+    type : 'get',
+    url : '/getMyProducts'
   }).done(function(response) {
-    displayProducts(response);
-  }).fail(function(xhr, status, message) { 
-    toastr.error('Something went wrong!');
+    if (response.status === 'error') {
+      toastr.error('Oh no, there was an error. Please try again.');
+    } else if (response.status === 'no user') {
+      location = '/';
+    } else if (!response.length) { 
+      $("#myProducts-field .container").append('<a href="/addProduct"><span class="no-products" href="/addProduct">Add some products!</span></a>'); 
+    } else {
+      displayProducts(response);
+    }
+  }).fail(function() {
+    toastr.error('Oh no, there was an error. Please try again.');
   });
   
   //display the produts
   function displayProducts(response) {
-    var container = $('.products-field .container'),
+    var container = $('#myProducts-field'),
         col,
         panel,
         heading,
@@ -42,7 +49,7 @@ $(function() {
       img = $('<div>')
         .addClass('image-container')
         .addClass('dynamic')
-        .css('background', 'url("/img/' + response[i].img + '") no-repeat center center')
+        .css('background', 'url("/img/' + response[i].img + '") no-repeat')
         .css('background-size', 'contain');
       ratingContainer = $('<div class="starsContainer">');
       averageRating = $('<div class="starContainer">')
@@ -55,6 +62,8 @@ $(function() {
       writeReview = $('<a>')
         .addClass('write-review')
         .html('Write a review!')
+        .css('margin-bottom', '10px')
+        .css('display', 'block')
         .attr('href', '/createReview?id=' + response[i]._id);
       detailsButton = $('<a>')
         .addClass('btn btn-primary')
@@ -90,6 +99,8 @@ $(function() {
       container.append(col);  
     }
     
+    $('<br>').insertAfter(container);
+    
     //check if user is logged in before displaying edit button
     displayEditButton($('.edit-button'));
     
@@ -115,19 +126,6 @@ $(function() {
     }).done(function(response) {
       if (response.loggedIn) {
         editButtons.show();
-      }
-    }).fail(function(xhr, status, message) {
-      
-    });
-  }
-  
-  function displayReviewButton(reviewButton) {
-    $.ajax({
-      type : 'get',
-      url : '/isLoggedIn',
-    }).done(function(response) {
-      if (response.loggedIn) {
-        reviewButton.show();
       }
     }).fail(function(xhr, status, message) {
       

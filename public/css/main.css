@@ -8139,15 +8139,15 @@ br {
   }
 }
 /* The Close Button */
-#closeButton {
+.closeButton {
   margin: -1px 10px 0;
   color: gray;
   float: right;
   font-size: 28px;
   font-weight: bold;
 }
-#closeButton:hover,
-#closeButton:focus {
+.closeButton:hover,
+.closeButton:focus {
   color: #000;
   text-decoration: none;
   cursor: pointer;
